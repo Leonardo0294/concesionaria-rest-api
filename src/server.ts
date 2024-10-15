@@ -1,5 +1,18 @@
 import express, { Application } from 'express';
 import bodyParser from 'body-parser';
+import { VehicleController } from './controllers/VehicleController';
+import { VehicleService } from './services/VehicleService';
+import { VehicleMongoRepository } from './repositories/VehicleMongoRepository';
+
+const vehicleRepo = new VehicleMongoRepository();
+const vehicleService = new VehicleService(vehicleRepo);
+const vehicleController = new VehicleController(vehicleService);
+
+
+
+
+
+
 
 class Server {
   public app: Application;
