@@ -8,6 +8,8 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const VehicleController_1 = require("./controllers/VehicleController");
 const VehicleService_1 = require("./services/VehicleService");
 const VehicleMongoRepository_1 = require("./repositories/VehicleMongoRepository");
+const vehicleRoutes_1 = __importDefault(require("./routes/vehicleRoutes"));
+const clientRoutes_1 = __importDefault(require("./routes/clientRoutes"));
 const vehicleRepo = new VehicleMongoRepository_1.VehicleMongoRepository();
 const vehicleService = new VehicleService_1.VehicleService(vehicleRepo);
 const vehicleController = new VehicleController_1.VehicleController(vehicleService);
@@ -22,8 +24,10 @@ class Server {
         this.app.use(body_parser_1.default.json());
     }
     routes() {
-        // Aquí irán los controladores
-    }
+        // Aquí registramos las rutas
+        this.app.use('/api', vehicleRoutes_1.default);
+        this.app.use('/api', clientRoutes_1.default);
+    } // Aquí se cierra correctamente el método routes()
     start() {
         this.app.listen(this.port, () => {
             console.log(`Server running on port ${this.port}`);

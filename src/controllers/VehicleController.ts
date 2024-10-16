@@ -8,12 +8,14 @@ export class VehicleController {
   async create(req: Request, res: Response): Promise<void> {
     try {
       const vehicleData = req.body;
+      // Crear el vehículo utilizando el nuevo orden de parámetros
       const newVehicle = new Vehicle(
-        vehicleData.id,
-        vehicleData.marca,
-        vehicleData.modelo,
-        vehicleData.año,
-        vehicleData.precio
+        vehicleData.marca,   // marca
+        vehicleData.modelo,  // modelo
+        vehicleData.año,     // año
+        vehicleData.precio,  // precio
+        undefined,           // _id, se puede definir más tarde
+        vehicleData.id       // id opcional
       );
       const createdVehicle = await this.vehicleService.createVehicle(newVehicle);
       res.status(201).json(createdVehicle);
@@ -40,7 +42,16 @@ export class VehicleController {
     try {
       const id = req.params.id;
       const vehicleData = req.body;
-      const updatedVehicle = await this.vehicleService.updateVehicle(id, vehicleData);
+      // Crear un objeto Vehicle utilizando el nuevo orden de parámetros
+      const updatedVehicleData = new Vehicle(
+        vehicleData.marca,   // marca
+        vehicleData.modelo,  // modelo
+        vehicleData.año,     // año
+        vehicleData.precio,  // precio
+        undefined,           // _id, se puede definir más tarde
+        vehicleData.id       // id opcional
+      );
+      const updatedVehicle = await this.vehicleService.updateVehicle(id, updatedVehicleData);
       if (updatedVehicle) {
         res.status(200).json(updatedVehicle);
       } else {

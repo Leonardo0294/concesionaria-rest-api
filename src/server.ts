@@ -3,16 +3,12 @@ import bodyParser from 'body-parser';
 import { VehicleController } from './controllers/VehicleController';
 import { VehicleService } from './services/VehicleService';
 import { VehicleMongoRepository } from './repositories/VehicleMongoRepository';
+import vehicleRoutes from './routes/vehicleRoutes';
+import clientRoutes from './routes/clientRoutes';
 
 const vehicleRepo = new VehicleMongoRepository();
 const vehicleService = new VehicleService(vehicleRepo);
 const vehicleController = new VehicleController(vehicleService);
-
-
-
-
-
-
 
 class Server {
   public app: Application;
@@ -30,8 +26,10 @@ class Server {
   }
 
   private routes(): void {
-    // Aquí irán los controladores
-  }
+    // Aquí registramos las rutas
+    this.app.use('/api', vehicleRoutes);
+    this.app.use('/api', clientRoutes);
+  } // Aquí se cierra correctamente el método routes()
 
   public start(): void {
     this.app.listen(this.port, () => {

@@ -19,7 +19,14 @@ class VehicleController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const vehicleData = req.body;
-                const newVehicle = new Vehicle_1.Vehicle(vehicleData.id, vehicleData.marca, vehicleData.modelo, vehicleData.año, vehicleData.precio);
+                // Crear el vehículo utilizando el nuevo orden de parámetros
+                const newVehicle = new Vehicle_1.Vehicle(vehicleData.marca, // marca
+                vehicleData.modelo, // modelo
+                vehicleData.año, // año
+                vehicleData.precio, // precio
+                undefined, // _id, se puede definir más tarde
+                vehicleData.id // id opcional
+                );
                 const createdVehicle = yield this.vehicleService.createVehicle(newVehicle);
                 res.status(201).json(createdVehicle);
             }
@@ -50,7 +57,15 @@ class VehicleController {
             try {
                 const id = req.params.id;
                 const vehicleData = req.body;
-                const updatedVehicle = yield this.vehicleService.updateVehicle(id, vehicleData);
+                // Crear un objeto Vehicle utilizando el nuevo orden de parámetros
+                const updatedVehicleData = new Vehicle_1.Vehicle(vehicleData.marca, // marca
+                vehicleData.modelo, // modelo
+                vehicleData.año, // año
+                vehicleData.precio, // precio
+                undefined, // _id, se puede definir más tarde
+                vehicleData.id // id opcional
+                );
+                const updatedVehicle = yield this.vehicleService.updateVehicle(id, updatedVehicleData);
                 if (updatedVehicle) {
                     res.status(200).json(updatedVehicle);
                 }
